@@ -1,0 +1,111 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.movieTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.movieYear {
+    font-size: 18px;
+    color: #bbb;
+}
+
+.movieDescription {
+    font-size: 16px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.posterOutline {
+    width: 150px;
+    height: 225px;
+    border: 2px dashed #fff;
+    margin: 10px 0;
+}
+
+.star {
+    cursor: pointer;
+    color: gold;
+    font-size: 20px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: gold;
+}
+
+.reviewContainer {
+    margin-top: 20px;
+}
+
+.reviewTextArea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    background-color: #333;
+    color: #fff;
+}
+
+.reviewCounter {
+    text-align: right;
+    color: #bbb;
+}
+
+.submitButton {
+    background-color: gold;
+    border: none;
+    color: #222;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.reviewsContainer {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.review {
+    background-color: #444;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.reviewRating {
+    font-weight: bold;
+}
+
+.reviewContent {
+    margin-top: 5px;
+}

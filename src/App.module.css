@@ -1,0 +1,13 @@
+.appContainer {
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh; 
+    overflow: hidden; 
+    box-shadow: 10px 0 15px -5px black;
+    padding-left: 10px;
+    background-color: #ccc;
+}
+
+.spaceAfterHeader {
+    margin-top: 30px;
+}
