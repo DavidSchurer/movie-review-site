@@ -39,6 +39,7 @@ const MovieCarousel = () => {
 
     const handleSubmitReview = () => {
         const newReview = {
+            movieTitle: movies[currentIndex].title,
             rating,
             review,
         };
@@ -56,6 +57,8 @@ const MovieCarousel = () => {
             </span>
         ));
     };
+
+    const currentMovieReviews = reviews.filter(rev => rev.movieTitle === movies[currentIndex].title);
 
     return (
         <div className={styles.container}>
@@ -88,7 +91,7 @@ const MovieCarousel = () => {
                 <button className={styles.button} onClick={nextMovie}>Next &gt;</button>
             </div>
             <div className={styles.reviewsContainer}>
-                {reviews.map((rev, index) => (
+                {currentMovieReviews.map((rev, index) => (
                     <div key={index} className={styles.review}>
                         <div className={styles.reviewRating}>Rating: {renderStars(rev.rating)}</div>
                         <div className={styles.reviewContent}>Review: {rev.review}</div>
