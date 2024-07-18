@@ -5,9 +5,9 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';  
 
 const hardcodedMovies = [
-    { title: 'Star Wars', year: 1977, description: 'Luke Skywalker is a Tatooine farmboy who rose from humble beginnings to become a Jedi Padawan after years of training.' },
-    { title: 'The Matrix', year: 1999, description: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.' },
-    { title: 'The Godfather', year: 1972, description: 'The Godfather follows Don Vito Corleone who, after the events of "Corleone"\'s life, decides to become a Godfather.' },
+    { id: 1, title: 'Star Wars', year: 1977, description: 'Luke Skywalker is a Tatooine farmboy who rose from humble beginnings to become a Jedi Padawan after years of training.' },
+    { id: 2, title: 'The Matrix', year: 1999, description: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.' },
+    { id: 3, title: 'The Godfather', year: 1972, description: 'The Godfather follows Don Vito Corleone who, after the events of "Corleone"\'s life, decides to become a Godfather.' },
 ];
 const MovieCarousel = () => {
     const [movies, setMovies] = useState(hardcodedMovies);
@@ -38,6 +38,9 @@ const MovieCarousel = () => {
             }
         };
         fetchReviews();
+
+        const storedReviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        setReviews(storedReviews);
     }, []);
 
     const nextMovie = () => {
@@ -55,6 +58,7 @@ const MovieCarousel = () => {
     };
 
     const handleSubmitReview = () => {
+        const currentMovie = movies[currentIndex];
         const newReview = {
             movie: currentMovie.id,
             rating,
