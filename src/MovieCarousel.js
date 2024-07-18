@@ -1,21 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MovieCarousel.module.css';
-const movies = [
+import axios from 'axios';
+axios.defaults.xsrfCookieName = 'csrftoken';  
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';  
+
+const hardcodedMovies = [
     { title: 'Star Wars', year: 1977, description: 'Luke Skywalker is a Tatooine farmboy who rose from humble beginnings to become a Jedi Padawan after years of training.' },
     { title: 'The Matrix', year: 1999, description: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.' },
     { title: 'The Godfather', year: 1972, description: 'The Godfather follows Don Vito Corleone who, after the events of "Corleone"\'s life, decides to become a Godfather.' },
 ];
 const MovieCarousel = () => {
+    const [movies, setMovies] = useState(hardcodedMovies);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState('');
     const [reviews, setReviews] = useState([]);
+
     useEffect(() => {
-        const storedReviews = localStorage.getItem('reviews');
-        if (storedReviews) {
-            setReviews(JSON.parse(storedReviews));
-        }
-    }, [])
+        const fetchMovies = async () => {
+            try {
+                const response = await axios.get('/api/movies/');
+                setMovies(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchMovies();
+
+        const fetchReviews = async () => {
+            try {
+                const response = await axios.get('/api/reviews/');
+                const sortedReviews = response.data.reverse();
+                setReviews(sortedReviews);
+                localStorage.setItem('reviews', JSON.stringify(sortedReviews));
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        };
+        fetchReviews();
+    }, []);
+
     const nextMovie = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % movies.length);
     };
@@ -32,15 +56,24 @@ const MovieCarousel = () => {
 
     const handleSubmitReview = () => {
         const newReview = {
-            movieTitle: movies[currentIndex].title,
+            movie: currentMovie.id,
             rating,
             review,
         };
-        const updatedReviews = [...reviews, newReview];
-        setReviews(updatedReviews);
-        localStorage.setItem('reviews', JSON.stringify(updatedReviews));
-        setRating(0);
-        setReview('');
+        
+        axios.post('http://127.0.0.1:8000/api/reviews/', newReview)
+            .then(response => {
+                console.log('Review submitted:', response.data);
+                const updatedReviews = [response.data, ...reviews];
+                setReviews(updatedReviews);
+                localStorage.setItem('reviews', JSON.stringify(updatedReviews));
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+            });
+
+            setRating(0);
+            setReview('');
     };
     const renderStars = (rating) => {
         return [...Array(5)].map((_, index) => (
@@ -50,14 +83,19 @@ const MovieCarousel = () => {
         ));
     };
 
-    const currentMovieReviews = reviews.filter(rev => rev.movieTitle === movies[currentIndex].title);
+    if (movies.length === 0) {
+        return <div>Loading...</div>;
+    }
+
+    const currentMovie = movies[currentIndex];
+    const currentMovieReviews = reviews.filter(rev => rev.movie === currentMovie.id);
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.movieTitle}>{movies[currentIndex].title}</h2>
+            <h2 className={styles.movieTitle}>{currentMovie.title}</h2>
             <div className={styles.posterOutline}></div>
-            <div className={styles.movieYear}>{movies[currentIndex].year}</div>
-            <p className={styles.movieDescription}>{movies[currentIndex].description}</p>
+            <div className={styles.movieYear}>{currentMovie.year}</div>
+            <p className={styles.movieDescription}>{currentMovie.description}</p>
             <div className={styles.star}>
                 {[1, 2, 3, 4, 5].map((star) => (
                     <span key={star} className={styles.star} onClick={() => handleRatingChange(star)}>
