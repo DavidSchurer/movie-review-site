@@ -76,7 +76,7 @@ const MovieCarousel = () => {
             review,
         };
         
-        axios.post('http://127.0.0.1:8000/api/reviews/', newReview)
+        axios.post('http://18.191.141.175:8000/api/reviews/', newReview)
             .then(response => {
                 console.log('Review submitted:', response.data);
                 const updatedReviews = [response.data, ...reviews];
