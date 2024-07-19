@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MovieCarousel.module.css';
 import axios from 'axios';
+import starWarsPoster from './starwars.png';
+import matrixPoster from './thematrix.png';
+import godfatherPoster from './godfather.png';
+
 axios.defaults.xsrfCookieName = 'csrftoken';  
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';  
 
@@ -9,6 +13,13 @@ const hardcodedMovies = [
     { id: 2, title: 'The Matrix', year: 1999, description: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.' },
     { id: 3, title: 'The Godfather', year: 1972, description: 'The Godfather follows Don Vito Corleone who, after the events of "Corleone"\'s life, decides to become a Godfather.' },
 ];
+
+const moviePosters = {
+    'Star Wars': starWarsPoster,
+    'The Matrix': matrixPoster,
+    'The Godfather': godfatherPoster,
+};
+
 const MovieCarousel = () => {
     const [movies, setMovies] = useState(hardcodedMovies);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -97,7 +108,9 @@ const MovieCarousel = () => {
     return (
         <div className={styles.container}>
             <h2 className={styles.movieTitle}>{currentMovie.title}</h2>
-            <div className={styles.posterOutline}></div>
+            <div className={styles.posterOutline}>
+                <img src={moviePosters[currentMovie.title]} alt={currentMovie.title} className={styles.moviePoster} />
+            </div>
             <div className={styles.movieYear}>{currentMovie.year}</div>
             <p className={styles.movieDescription}>{currentMovie.description}</p>
             <div className={styles.star}>
