@@ -109,3 +109,9 @@
 .reviewContent {
     margin-top: 5px;
 }
+
+.moviePoster {
+    width: 150px;
+    height: 225px;
+    object-fit: cover;
+}
